@@ -20,10 +20,6 @@ impl Minimax{
         }
     }
 
-    pub fn set_training_mode(&mut self) {
-        self.evaluater= neuroflow::io::load("acordion-trainee.flow").unwrap();
-    }
-
     /// This function sets the training mode with a specified trainer in Rust.
     /// 
     /// Arguments:

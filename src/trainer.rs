@@ -227,7 +227,7 @@ impl Trainer {
         let data = self.create_dataset(positions, predicted_rewards);
     
         self.trainee.activation(neuroflow::activators::Type::Tanh).learning_rate(0.01).train(&data, 50_000);
-        neuroflow::io::save(&mut self.trainee, "acordion.flow").unwrap();
+        neuroflow::io::save(&mut self.trainee, "src/Trainee/acordion.flow").unwrap();
     }
     
     /// The function `calculate_data` takes a `GameTree` as input, calculates predicted rewards based on
