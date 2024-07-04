@@ -14,7 +14,7 @@ Acordion is an AI project written in Rust that creates a neural network agent to
 
    cd Acordion
 
-   cargo run
+   cargo run --release
 ```
 
 ## Usage
