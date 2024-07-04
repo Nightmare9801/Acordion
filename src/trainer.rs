@@ -40,7 +40,7 @@ impl Trainer {
     /// neural network model will be created and saved to files.
     pub fn spawn_trainers(&self, size: i16) {
         for i in 0..size {
-            let mut nn= FeedForward::new(&[9, 16, 32, 16, 1]);
+            let mut nn: FeedForward= neuroflow::io::load("src/Trainee/acordion.flow").unwrap();
             let y= format!("src/Trainers/acordion-trainers-{}.flow", i);
             neuroflow::io::save(&mut nn, &y).unwrap();
 
@@ -97,7 +97,7 @@ impl Trainer {
     /// unique names.
     pub fn spawn_storers (&self, size: i16) {
         for i in 0..size {
-            let mut nn= FeedForward::new(&[9, 16, 32, 16, 1]);
+            let mut nn: FeedForward= FeedForward::new(&[9, 16, 32, 16, 1]);
             let y= format!("src/Storers/acordion-storers-{}.flow", i);
             neuroflow::io::save(&mut nn, &y).unwrap();
         }
@@ -204,8 +204,8 @@ impl Trainer {
             let tree= self.play_game_with_type_1(trainer);
             let tree2 = self.play_game_with_type_2(trainer);
             
-            self.train_for_tree(tree, _i);
-            self.train_for_tree(tree2, _i)
+            self.train_for_tree(tree);
+            self.train_for_tree(tree2)
         }
     }
 
@@ -216,11 +216,7 @@ impl Trainer {
     /// 
     /// * `tree`: The `tree` parameter in the `train_for_tree` function is of type `GameTree`. It is
     /// used as input to calculate data and create a dataset for training a neural network model.
-    /// * `_i`: The `_i` parameter in the `train_for_tree` function appears to be an unused variable. It
-    /// is common practice in Rust to use an underscore prefix for variable names that are intentionally
-    /// unused to avoid compiler warnings about unused variables. If you don't plan to use this
-    /// parameter in the function, you
-    fn train_for_tree(&mut self, tree: GameTree, _i: i32) {
+    fn train_for_tree(&mut self, tree: GameTree) {
         let (positions, predicted_rewards) = self.calculate_data(tree);
     
         
@@ -239,12 +235,12 @@ impl Trainer {
     /// * `tree`: The `tree` parameter in the `calculate_data` function is of type `GameTree`. It seems
     /// to contain information about rewards and positions related to a game. The function retrieves
     /// rewards and positions from the `tree` object, calculates predicted rewards based on a discount
-    /// factor and the position index, and
+    /// factor and the position index
     pub fn calculate_data(&mut self, tree: GameTree) -> (Vec<Vec<f64>>, Vec<f64>) {
         let rewards = tree.get_rewards();
         let positions = tree.get_positions();
         let mut predicted_rewards = Vec::new();
-        let discount_factor = 0.9; // Adjusted discount factor
+        let discount_factor = 0.99; // Adjusted discount factor
     
         for i in 0..rewards.len() {
             let mut reward_to_be_pushed: f64 = 0.0;
