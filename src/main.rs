@@ -12,7 +12,7 @@ pub mod game_tree;
 fn main() {
     let mut train= Trainer::new(neuroflow::io::load("src/Trainee/acordion.flow").unwrap());
     let _ = train.reset();
-    train.train(1, 0000, 2, 8);
+    train.train(1, 10000, 2, 8);
     play_game_with_user();
 }
 
